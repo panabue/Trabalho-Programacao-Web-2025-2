@@ -1,0 +1,166 @@
+.home-greeting {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.quick-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  height: 64px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quick-card:hover {
+  background-color: #404040;
+}
+
+.quick-card span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.quick-card-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.quick-card-icon.purple {
+  background: linear-gradient(135deg, #4000a0, #c039f0);
+}
+.quick-card-icon.green {
+  background-color: #006450;
+}
+.quick-card-icon.orange {
+  background-color: #ff4632;
+}
+
+.content-section {
+  margin-bottom: 32px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.see-all-link {
+  font-size: 12px;
+  font-weight: bold;
+  color: #b3b3b3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.see-all-link:hover {
+  color: #fff;
+}
+
+.card-list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.placeholder-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #333;
+}
+
+.artist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.artist-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #333;
+}
+
+.album-card {
+  background-color: #181818;
+  padding: 16px;
+  border-radius: 8px;
+  width: 180px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.album-card:hover {
+  background-color: #282828;
+}
+
+.album-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  background-color: #333;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.artist-card .card-title {
+  text-align: center;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.artist-card .card-subtitle {
+  text-align: center;
+}

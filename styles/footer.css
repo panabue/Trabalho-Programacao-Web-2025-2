@@ -1,0 +1,165 @@
+.player-footer {
+  grid-area: footer;
+  background-color: #000000;
+  border-top: 1px solid #282828;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.player-album-art {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+}
+
+.player-song-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.song-title {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.song-artist {
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+.player-center {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 720px;
+}
+
+.player-controls-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.play-button-container {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.play-button-container:hover {
+  transform: scale(1.1);
+}
+
+.play-button-container .fa-play {
+  color: #000;
+  font-size: 14px;
+  margin-left: 3px;
+}
+
+.player-progress-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+.progress-bar {
+  flex: 1;
+  background-color: #404040;
+  height: 4px;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.progress-bar-foreground {
+  background-color: #fff;
+  height: 100%;
+  border-radius: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress-bar-handle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  top: -4px;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.progress-bar:hover .progress-bar-handle {
+  opacity: 1;
+}
+
+.progress-bar:hover .progress-bar-foreground {
+  background-color: #1db954;
+}
+
+.player-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  min-width: 180px;
+}
+
+.volume-slider {
+  background-color: #404040;
+  height: 4px;
+  border-radius: 2px;
+  width: 100px;
+  position: relative;
+  cursor: pointer;
+}
+
+.player-left i,
+.player-center .fa-shuffle,
+.player-center .fa-backward-step,
+.player-center .fa-forward-step,
+.player-center .fa-repeat,
+.player-right i {
+  color: #b3b3b3;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.player-left i:hover,
+.player-center .fa-shuffle:hover,
+.player-center .fa-backward-step:hover,
+.player-center .fa-forward-step:hover,
+.player-center .fa-repeat:hover,
+.player-right i:hover {
+  color: #fff;
+}
