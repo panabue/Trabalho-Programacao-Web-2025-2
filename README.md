@@ -4,6 +4,12 @@ Um player de música web com uma experiência de usuário moderna e intuitiva, i
 
 ---
 
+## Integrantes:
+
+- Theo Nasser
+- Gerson Pereira
+- Samuel Henrique
+
 ## Sobre o Projeto:
 
 O projeto é uma plataforma de streaming de música projetada para oferecer uma experiência rica e envolvente para os amantes da música. O objetivo é criar uma interface familiar e poderosa, semelhante à do Spotify, onde os usuários podem descobrir novas faixas, criar e compartilhar playlists, e ouvir seus artistas favoritos sem interrupções.
