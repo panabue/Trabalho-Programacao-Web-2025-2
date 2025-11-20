@@ -19,5 +19,16 @@ async function loadContent(pageName) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadContent("home");
+  // If user is not logged in, redirect to login page
+  if (!localStorage.getItem('loggedIn')) {
+      // Check if we are not already on a page that is the login page
+      if(!window.location.href.includes('login.html')) {
+        window.location.href = 'login.html';
+      }
+  } else {
+    // If we are on the main page, load the home content
+    if(document.getElementById("page-content")){
+        loadContent("home");
+    }
+  }
 });
