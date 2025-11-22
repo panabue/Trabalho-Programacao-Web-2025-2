@@ -2,10 +2,11 @@ async function loadContent(pageName) {
   try {
     const contentContainer = document.getElementById("page-content");
 
+    // We are in the html folder, so we need to fetch from the same folder
     const response = await fetch(`${pageName}.html`);
 
     if (!response.ok) {
-      throw new Error("Página não encontrada");
+      throw new Error(`Página não encontrada: ${pageName}.html`);
     }
 
     const htmlContent = await response.text();
@@ -19,16 +20,44 @@ async function loadContent(pageName) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // If user is not logged in, redirect to login page
-  if (!localStorage.getItem('loggedIn')) {
-      // Check if we are not already on a page that is the login page
-      if(!window.location.href.includes('login.html')) {
-        window.location.href = 'login.html';
-      }
-  } else {
-    // If we are on the main page, load the home content
-    if(document.getElementById("page-content")){
-        loadContent("home");
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    const userContainer = document.querySelector('.user-container-header');
+
+    if (user && user.username) {
+        // User is logged in
+        if (userContainer) {
+            userContainer.innerHTML = `
+                <div class="user-profile">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <span>${user.username}</span>
+            `;
+            userContainer.removeAttribute('href'); // Remove the link to login.html
+            userContainer.style.cursor = 'pointer'; // Make it look clickable
+
+            userContainer.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent any default <a> tag behavior
+                if (confirm('Deseja sair da sua conta?')) {
+                    localStorage.removeItem('loggedIn');
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = 'login.html'; // Redirect to login
+                }
+            });
+        }
+
+        // Load home content if on the main page
+        if (document.getElementById('page-content')) {
+            loadContent('home');
+        }
+
+    } else {
+        // User is not logged in
+        const onLoginPage = window.location.href.includes('login.html');
+        const onRegisterPage = window.location.href.includes('register.html');
+
+        // If not on login or register page, redirect to login
+        if (!onLoginPage && !onRegisterPage) {
+            window.location.href = 'login.html';
+        }
     }
-  }
 });

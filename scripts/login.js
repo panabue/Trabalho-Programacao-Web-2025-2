@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (user) {
             // Simulate a successful login and redirect
             localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
             alert("Login bem-sucedido! Redirecionando para a página principal.");
             window.location.href = "../html/index.html";
         } else {

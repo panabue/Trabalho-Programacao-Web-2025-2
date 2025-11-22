@@ -1,6 +1,6 @@
 # Trabalho-Programacao-Web-2025-2
 
-Um player de música web com uma experiência de usuário moderna e intuitiva, inspirado no Spotify.
+Um player de música web com uma experiência de usuário intuitiva, inspirado no Spotify.
 
 ---
 
@@ -12,7 +12,7 @@ Um player de música web com uma experiência de usuário moderna e intuitiva, i
 
 ## Sobre o Projeto:
 
-O projeto é uma plataforma de streaming de música projetada para oferecer uma experiência rica e envolvente para os amantes da música. O objetivo é criar uma interface familiar e poderosa, semelhante à do Spotify, onde os usuários podem descobrir novas faixas, criar e compartilhar playlists, e ouvir seus artistas favoritos sem interrupções.
+O projeto é uma plataforma de streaming de música projetada para oferecer uma experiência rica e envolvente para os amantes da música. O objetivo é criar uma interface familiar, semelhante à do Spotify, onde os usuários podem descobrir novas faixas, criar e compartilhar playlists, e ouvir seus artistas favoritos sem interrupções.
 
 ## Tema e Design:
  
@@ -34,7 +34,7 @@ O sistema busca replicar as funcionalidades essenciais que tornam o Spotify uma 
 
 ### Autenticação de Usuário:
 
-  • Sistema de cadastro e login seguro.
+  • Sistema de cadastro e login.
 
   • Perfis de usuário personalizáveis.
 
