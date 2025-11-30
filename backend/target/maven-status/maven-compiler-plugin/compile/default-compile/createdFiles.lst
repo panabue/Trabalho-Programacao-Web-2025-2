@@ -1,5 +1,6 @@
 com\example\trabalhoweb\controllers\AuthenticationController.class
 com\example\trabalhoweb\TrabalhoWebApplication.class
+com\example\trabalhoweb\models\ResetPasswordDTO.class
 com\example\trabalhoweb\repositories\UserRepository.class
 com\example\trabalhoweb\infra\security\SecurityConfig.class
 com\example\trabalhoweb\services\TokenService.class
