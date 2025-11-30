@@ -1,18 +1,15 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
 
-    const resetData = JSON.parse(localStorage.getItem('resetToken'));
-
-    if (!resetData || resetData.token !== token || Date.now() > resetData.expiry) {
+    if (!token) {
         alert('O link de redefinição de senha é inválido ou expirou.');
         window.location.href = 'login.html';
         return;
     }
 
     const resetForm = document.getElementById('reset-password-form');
-    resetForm.addEventListener('submit', function(event) {
+    resetForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const newPassword = document.getElementById('password').value;
@@ -23,17 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userIndex = users.findIndex(user => user.email === resetData.email);
+        try {
+            const response = await fetch('http://localhost:8081/auth/reset-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: token, password: newPassword }),
+            });
 
-        if (userIndex !== -1) {
-            users[userIndex].password = newPassword; // In a real app, you would hash this password
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.removeItem('resetToken'); 
-
-            alert('Sua senha foi redefinida com sucesso!');
-            window.location.href = 'login.html';
-        } else {
+            if (response.ok) {
+                alert('Sua senha foi redefinida com sucesso!');
+                window.location.href = 'login.html';
+            } else {
+                alert('Ocorreu um erro ao redefinir a senha. O link pode ter expirado.');
+                window.location.href = 'login.html';
+            }
+        } catch (error) {
+            console.error('Erro ao redefinir senha:', error);
             alert('Ocorreu um erro ao redefinir a senha.');
         }
     });

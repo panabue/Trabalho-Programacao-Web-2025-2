@@ -20,26 +20,20 @@ async function loadContent(pageName) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    const token = localStorage.getItem('token');
     const userContainer = document.querySelector('.user-container-header');
 
-    if (user && user.username) {
+    if (token) {
         // User is logged in
         if (userContainer) {
-            userContainer.innerHTML = `
-                <div class="user-profile">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <span>${user.username}</span>
-            `;
+             // Keep the default user icon and name, but make it a logout button
             userContainer.removeAttribute('href'); // Remove the link to login.html
             userContainer.style.cursor = 'pointer'; // Make it look clickable
 
             userContainer.addEventListener('click', (event) => {
                 event.preventDefault(); // Prevent any default <a> tag behavior
                 if (confirm('Deseja sair da sua conta?')) {
-                    localStorage.removeItem('loggedIn');
-                    localStorage.removeItem('loggedInUser');
+                    localStorage.removeItem('token');
                     window.location.href = 'login.html'; // Redirect to login
                 }
             });
@@ -54,9 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // User is not logged in
         const onLoginPage = window.location.href.includes('login.html');
         const onRegisterPage = window.location.href.includes('register.html');
+        const onForgotPasswordPage = window.location.href.includes('forgot-password.html');
+        const onResetPasswordPage = window.location.href.includes('reset-password.html');
 
-        // If not on login or register page, redirect to login
-        if (!onLoginPage && !onRegisterPage) {
+        // If not on a public page, redirect to login
+        if (!onLoginPage && !onRegisterPage && !onForgotPasswordPage && !onResetPasswordPage) {
             window.location.href = 'login.html';
         }
     }

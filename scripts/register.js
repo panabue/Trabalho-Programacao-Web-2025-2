@@ -1,4 +1,4 @@
-document.getElementById('register-form').addEventListener('submit', function(event) {
+document.getElementById('register-form').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
@@ -11,18 +11,23 @@ document.getElementById('register-form').addEventListener('submit', function(eve
         return;
     }
 
-    // Store user data in localStorage
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = users.some(user => user.email === email);
+    try {
+        const response = await fetch('http://localhost:8081/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ login: email, password: password, role: 'USER' }),
+        });
 
-    if (userExists) {
-        alert("Este email já está cadastrado!");
-        return;
+        if (response.ok) {
+            alert("Cadastro realizado com sucesso! Redirecionando para a página de login.");
+            window.location.href = "login.html";
+        } else {
+            alert("Este email já está cadastrado!");
+        }
+    } catch (error) {
+        console.error('Erro ao tentar cadastrar:', error);
+        alert("Ocorreu um erro ao tentar cadastrar. Verifique o console para mais detalhes.");
     }
-
-    users.push({ username, email, password });
-    localStorage.setItem('users', JSON.stringify(users));
-
-    alert("Cadastro realizado com sucesso! Redirecionando para a página de login.");
-    window.location.href = "login.html";
 });

@@ -4,6 +4,7 @@ C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\AuthenticationDTO.java
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\LoginResponseDTO.java
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\RegisterDTO.java
+C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\ResetPasswordDTO.java
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\User.java
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\models\UserRole.java
 C:\Users\theot\Desktop\Trabalho-Programacao-Web-2025-2\backend\src\main\java\com\example\trabalhoweb\repositories\UserRepository.java

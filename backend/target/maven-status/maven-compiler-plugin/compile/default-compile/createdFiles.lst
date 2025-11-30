@@ -1,12 +1,12 @@
 com\example\trabalhoweb\controllers\AuthenticationController.class
-com\example\trabalhoweb\models\UserRole.class
-com\example\trabalhoweb\models\RegisterDTO.class
 com\example\trabalhoweb\TrabalhoWebApplication.class
 com\example\trabalhoweb\repositories\UserRepository.class
 com\example\trabalhoweb\infra\security\SecurityConfig.class
-com\example\trabalhoweb\infra\security\SecurityFilter.class
 com\example\trabalhoweb\services\TokenService.class
-com\example\trabalhoweb\models\User.class
 com\example\trabalhoweb\models\AuthenticationDTO.class
 com\example\trabalhoweb\services\AuthorizationService.class
+com\example\trabalhoweb\models\UserRole.class
+com\example\trabalhoweb\models\RegisterDTO.class
+com\example\trabalhoweb\infra\security\SecurityFilter.class
+com\example\trabalhoweb\models\User.class
 com\example\trabalhoweb\models\LoginResponseDTO.class

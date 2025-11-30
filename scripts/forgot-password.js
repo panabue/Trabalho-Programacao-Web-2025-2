@@ -1,19 +1,26 @@
-document.getElementById('forgot-password-form').addEventListener('submit', function(event) {
+document.getElementById('forgot-password-form').addEventListener('submit', async function(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(user => user.email === email);
+    try {
+        const response = await fetch('http://localhost:8081/auth/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ login: email }),
+        });
 
-    if (user) {
-        // Generate a pseudo-random token for the reset link
-        const token = Math.random().toString(36).substr(2);
-        localStorage.setItem('resetToken', JSON.stringify({email: email, token: token, expiry: Date.now() + 3600000})); // Token valid for 1 hour
-
-        // Simulate sending an email by redirecting to a reset page with the token
-        alert('Um link de redefinição de senha foi gerado. Redirecionando...');
-        window.location.href = `reset-password.html?token=${token}`;
-    } else {
-        alert('Nenhum usuário encontrado com este email.');
+        if (response.ok) {
+            const data = await response.json();
+            const token = data.token;
+            alert('Um link de redefinição de senha foi gerado. Redirecionando...');
+            window.location.href = `reset-password.html?token=${token}`;
+        } else {
+            alert('Nenhum usuário encontrado com este email.');
+        }
+    } catch (error) {
+        console.error('Erro ao solicitar redefinição de senha:', error);
+        alert('Ocorreu um erro. Tente novamente.');
     }
 });

@@ -1,57 +1,100 @@
-# Trabalho-Programacao-Web-2025-2
+# Trabalho Programação Web 2025-2
 
-Um player de música web com uma experiência de usuário intuitiva, inspirado no Spotify.
+Este é um projeto de programação web com um backend em Java Spring Boot e um frontend em HTML, CSS e JavaScript.
 
----
+## Estrutura do Projeto
 
-## Integrantes:
+```
+.
+├── README.md
+├── assets/
+├── backend/
+├── html/
+├── scripts/
+└── styles/
+```
 
-- Theo Nasser
-- Gerson Pereira
-- Samuel Henrique
+- `backend/`: Contém a aplicação Spring Boot.
+- `html/`, `scripts/`, `styles/`, `assets/`: Contêm os arquivos do frontend.
 
-## Sobre o Projeto:
+## Como Rodar a Aplicação
 
-O projeto é uma plataforma de streaming de música projetada para oferecer uma experiência rica e envolvente para os amantes da música. O objetivo é criar uma interface familiar, semelhante à do Spotify, onde os usuários podem descobrir novas faixas, criar e compartilhar playlists, e ouvir seus artistas favoritos sem interrupções.
+### Pré-requisitos
 
-## Tema e Design:
- 
-O design do site é minimalista, elegante e focado na usabilidade. Com um tema escuro predominante, a interface destaca as capas dos álbuns e facilita a navegação, proporcionando uma experiência visualmente agradável e confortável. A disposição dos elementos foi pensada para ser intuitiva, mesmo para usuários de primeira viagem.
+- [Java JDK 17 ou superior](https://www.oracle.com/java/technologies/downloads/)
+- [Apache Maven](https://maven.apache.org/download.cgi)
+- Um navegador web moderno.
+- (Opcional) [Python](https://www.python.org/downloads/) para servir os arquivos do frontend.
 
-## Funcionalidades Principais:
+### Backend
 
-O sistema busca replicar as funcionalidades essenciais que tornam o Spotify uma plataforma tão popular:
+1.  **Navegue até o diretório do backend:**
 
-### Player de Música Completo:
+    ```bash
+    cd backend
+    ```
 
-  • Controles de reprodução (play, pause, avançar, retroceder).
+2.  **Compile e inicie a aplicação Spring Boot:**
 
-  • Barra de progresso da música.
+    ```bash
+    mvn spring-boot:run
+    ```
 
-  • Controle de volume.
+    O servidor backend estará rodando em `http://localhost:8081`.
 
-  • Repetir e ordem aleatória.
+### Acessando o Console do Banco de Dados H2
 
-### Autenticação de Usuário:
+Com o backend em execução, você pode acessar a interface gráfica do banco de dados H2.
 
-  • Sistema de cadastro e login.
+1.  **Abra seu navegador e acesse:** `http://localhost:8081/h2-console`
 
-  • Perfis de usuário personalizáveis.
+2.  **Na tela de login do H2, utilize os seguintes dados:**
+    - **JDBC URL:** `jdbc:h2:mem:trabalhowebdb`
+    - **User Name:** `sa`
+    - **Password:** (deixe em branco)
 
-### Descoberta de Músicas:
+3.  Clique em **Connect**.
 
-  • Página inicial com recomendações, novos lançamentos e playlists populares.
+### Frontend
 
-  • Busca por músicas, artistas e álbuns.
+O frontend é composto por arquivos estáticos (HTML, CSS, JS). Você pode abri-los diretamente no seu navegador, mas para que as requisições para o backend funcionem corretamente, é recomendado servi-los através de um servidor web simples.
 
-  • Páginas dedicadas para artistas com suas discografias completas.
+#### Usando Python (Recomendado)
 
-### Criação e Gerenciamento de Playlists:
+1.  **Abra um novo terminal na raiz do projeto.**
 
-  • Crie playlists personalizadas.
+2.  **Inicie um servidor HTTP simples.** Se você tiver o Python 3 instalado, use o comando:
 
-  • Adicione ou remova músicas de suas playlists.
+    ```bash
+    python -m http.server
+    ```
 
-  • Curta músicas para adicioná-las a uma playlist de "Músicas Curtidas".
+    Se você tiver o Python 2, use o comando:
+    ```bash
+    python -m SimpleHTTPServer
+    ```
+3.  **Acesse o frontend no seu navegador:**
 
-  • Torne playlists públicas ou privadas.
+    Abra seu navegador e vá para `http://localhost:8000/html/`. Você será redirecionado para a página de login ou a página principal.
+
+#### Abrindo diretamente no navegador (Não recomendado)
+
+Você pode abrir os arquivos `.html` da pasta `html/` diretamente no seu navegador, mas a funcionalidade que depende do backend (como login e registro) pode não funcionar como esperado devido à política de mesma origem (CORS) do navegador.
+
+## Como Rodar os Testes
+
+### Testes do Backend
+
+1.  **Navegue até o diretório do backend:**
+
+    ```bash
+    cd backend
+    ```
+
+2.  **Execute os testes Maven:**
+
+    ```bash
+    mvn test
+    ```
+
+    Os resultados dos testes serão exibidos no console.
