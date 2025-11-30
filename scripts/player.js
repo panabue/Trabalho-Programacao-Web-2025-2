@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressBarHandle = document.querySelector(".progress-bar-handle");
   const timeCurrent = document.querySelector(".time-current");
   const timeTotal = document.querySelector(".time-total");
-  const songTitle = document.querySelector(".song-title");
+  const songTitleEl = document.querySelector(".player-song-info .song-title");
   const songArtist = document.querySelector(".song-artist");
   const albumArt = document.querySelector(".player-album-art");
 
@@ -35,9 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
         title: "Get Lucky",
         artist: "Daft Punk",
         src: "../assets/music/daftPunk/Daft Punk - Get Lucky (Official Video) feat. Pharrell Williams and Nile Rodgers [CCHdMIEGaaM].mp3",
-        albumArt: "../assets/img5.jpg",
+        albumArt: "../assets.img5.jpg",
     },
   ];
+
+  window.playlist = playlist;
 
   let currentSongIndex = 0;
   let isPlaying = false;
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadSong(songIndex) {
     const song = playlist[songIndex];
     audioPlayer.src = song.src;
-    songTitle.textContent = song.title;
+    songTitleEl.textContent = song.title;
     songArtist.textContent = song.artist;
     albumArt.src = song.albumArt;
   }
@@ -90,7 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
     progressBarForeground.style.width = `${progressPercent}%`;
     progressBarHandle.style.left = `${progressPercent}%`;
     timeCurrent.textContent = formatTime(currentTime);
-    timeTotal.textContent = formatTime(duration);
+    if (duration) {
+      timeTotal.textContent = formatTime(duration);
+    }
   }
 
   function formatTime(seconds) {
@@ -105,6 +109,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const duration = audioPlayer.duration;
     audioPlayer.currentTime = (clickX / width) * duration;
   }
+
+  function playSongFromPlaylist(songTitle) {
+    const songIndex = window.playlist.findIndex(song => song.title === songTitle);
+    if (songIndex !== -1) {
+        currentSongIndex = songIndex;
+        loadSong(currentSongIndex);
+        playSong();
+    }
+  }
+
+  window.playSongFromPlaylist = playSongFromPlaylist;
 
   playButton.addEventListener("click", togglePlayPause);
   nextButton.addEventListener("click", playNextSong);

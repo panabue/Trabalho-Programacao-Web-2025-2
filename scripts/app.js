@@ -2,7 +2,6 @@ async function loadContent(pageName) {
   try {
     const contentContainer = document.getElementById("page-content");
 
-    // We are in the html folder, so we need to fetch from the same folder
     const response = await fetch(`${pageName}.html`);
 
     if (!response.ok) {
