@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.login);
                 alert("Login bem-sucedido! Redirecionando para a página principal.");
                 window.location.href = "index.html"; // Assuming index.html is at the same level
             } else {

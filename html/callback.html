@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autenticação Spotify</title>
+</head>
+
+<body>
+  <h2>Autenticando...</h2>
+  <script>
+    // Function to parse the hash parameters
+    function getHashParams() {
+      const hashParams = {};
+      let e, r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+      while (e = r.exec(q)) {
+        hashParams[e[1]] = decodeURIComponent(e[2]);
+      }
+      return hashParams;
+    }
+
+    const params = getHashParams();
+    const accessToken = params.access_token;
+    const error = params.error;
+
+    if (accessToken) {
+      // Save token and expiration time (1 hour usually)
+      const expiresIn = params.expires_in || 3600;
+      const now = new Date().getTime();
+      const expirationTime = now + (expiresIn * 1000);
+
+      localStorage.setItem('spotify_access_token', accessToken);
+      localStorage.setItem('spotify_token_expiration', expirationTime);
+
+      // Redirect back to the main app
+      window.location.href = 'index.html';
+    } else {
+      if (error) {
+        document.body.innerHTML = `<h3>Erro na autenticação: ${error}</h3><p>Feche esta janela e tente novamente.</p>`;
+      } else {
+        document.body.innerHTML = `<h3>Erro desconhecido.</h3><p>Nenhum token encontrado.</p>`;
+      }
+    }
+  </script>
+</body>
+
+</html>
