@@ -1,0 +1,72 @@
+.artist-profile-header, .album-profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.artist-profile-image, .album-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 2rem;
+    object-fit: cover;
+}
+
+.album-profile-image {
+    border-radius: 10px;
+}
+
+.artist-profile-info h1, .album-profile-info h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.artist-profile-info p, .album-profile-info p {
+    font-size: 1rem;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+.artist-music-list h2, .album-music-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.song-item:hover {
+    background-color: #282828;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.song-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.song-artist {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
+
+audio {
+    width: 300px;
+}
+
+.artist-card, .album-card {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
