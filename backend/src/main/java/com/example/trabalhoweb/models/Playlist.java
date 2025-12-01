@@ -26,6 +26,7 @@ public class Playlist {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"likedMusics", "lastPlayedMusic", "password", "resetPasswordToken", "resetPasswordTokenExpiry"})
     private User owner;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)

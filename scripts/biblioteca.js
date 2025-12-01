@@ -63,7 +63,7 @@ function displayPlaylists(playlists, container) {
         const songCount = playlist.musics ? playlist.musics.length : 0;
 
         html += `
-            <div class="playlist-card" onclick="openPlaylist(${playlist.id})" style="cursor: pointer; background: #181818; border-radius: 8px; padding: 16px; transition: background 0.3s;">
+            <div class="playlist-card" onclick="openPlaylist('${playlist.id}')" style="cursor: pointer; background: #181818; border-radius: 8px; padding: 16px; transition: background 0.3s;">
                 <div style="position: relative; margin-bottom: 16px;">
                     <img src="${playlistImage}" alt="${playlist.name}"
                          style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: #333;"
@@ -110,6 +110,8 @@ async function openPlaylist(playlistId) {
         return;
     }
 
+    console.log("Opening playlist with ID:", playlistId);
+
     try {
         const response = await fetch(`http://localhost:8081/playlist/${playlistId}`, {
             headers: {
@@ -117,8 +119,12 @@ async function openPlaylist(playlistId) {
             }
         });
 
+        console.log("Response status:", response.status);
+
         if (response.ok) {
             const playlist = await response.json();
+            console.log("Playlist data:", playlist);
+            console.log("Musics in playlist:", playlist.musics);
             displayPlaylistDetails(playlist);
         } else {
             if (response.status === 403 || response.status === 401) {
@@ -127,6 +133,8 @@ async function openPlaylist(playlistId) {
                 window.location.href = 'login.html';
                 return;
             }
+            const errorText = await response.text();
+            console.error("Error response:", errorText);
             alert("Erro ao carregar detalhes da playlist.");
         }
     } catch (error) {
@@ -156,10 +164,10 @@ function displayPlaylistDetails(playlist) {
         </div>
 
         <div class="playlist-actions" style="padding: 24px 20px; background: #121212;">
-            <button onclick="playPlaylist(${playlist.id})" style="background: #1db954; color: white; border: none; padding: 12px 32px; border-radius: 500px; font-size: 16px; font-weight: 700; cursor: pointer; margin-right: 16px;">
+            <button onclick="playPlaylist('${playlist.id}')" style="background: #1db954; color: white; border: none; padding: 12px 32px; border-radius: 500px; font-size: 16px; font-weight: 700; cursor: pointer; margin-right: 16px;">
                 <i class="fa-solid fa-play"></i> Reproduzir
             </button>
-            <button onclick="deletePlaylist(${playlist.id})" style="background: transparent; color: #b3b3b3; border: 1px solid #b3b3b3; padding: 12px 32px; border-radius: 500px; font-size: 16px; font-weight: 700; cursor: pointer;">
+            <button onclick="deletePlaylist('${playlist.id}')" style="background: transparent; color: #b3b3b3; border: 1px solid #b3b3b3; padding: 12px 32px; border-radius: 500px; font-size: 16px; font-weight: 700; cursor: pointer;">
                 <i class="fa-solid fa-trash"></i> Excluir Playlist
             </button>
         </div>
@@ -191,7 +199,10 @@ function displayPlaylistDetails(playlist) {
 
         musics.forEach((music, index) => {
             html += `
-                <tr style="border-bottom: 1px solid #282828;" onmouseenter="this.style.background='#282828'" onmouseleave="this.style.background='transparent'">
+                <tr style="border-bottom: 1px solid #282828; cursor: pointer;"
+                    onmouseenter="this.style.background='#282828'"
+                    onmouseleave="this.style.background='transparent'"
+                    onclick="playSongFromPlaylistDetails(${index})">
                     <td style="padding: 12px; color: #b3b3b3;">${index + 1}</td>
                     <td style="padding: 12px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -203,8 +214,8 @@ function displayPlaylistDetails(playlist) {
                         </div>
                     </td>
                     <td style="padding: 12px; color: #b3b3b3;">${music.artist}</td>
-                    <td style="padding: 12px; text-align: center;">
-                        <button onclick="removeMusicFromPlaylist(${playlist.id}, ${music.id})"
+                    <td style="padding: 12px; text-align: center;" onclick="event.stopPropagation();">
+                        <button onclick="removeMusicFromPlaylist('${playlist.id}', '${music.id}')"
                                 style="background: transparent; border: none; color: #b3b3b3; cursor: pointer; padding: 8px;"
                                 title="Remover da playlist">
                             <i class="fa-solid fa-trash"></i>
@@ -229,6 +240,22 @@ function displayPlaylistDetails(playlist) {
     `;
 
     contentContainer.innerHTML = html;
+
+    // Store playlist data globally for playback
+    window.currentPlaylistData = {
+        id: playlist.id,
+        name: playlist.name,
+        musics: musics.map(music => ({
+            title: music.title,
+            artist: music.artist,
+            album: music.album,
+            src: music.previewUrl,
+            albumArt: music.coverUrl,
+            spotifyId: music.spotifyId
+        }))
+    };
+
+    console.log("Stored currentPlaylistData:", window.currentPlaylistData);
 }
 
 async function deletePlaylist(playlistId) {
@@ -292,8 +319,79 @@ async function removeMusicFromPlaylist(playlistId, musicId) {
 }
 
 function playPlaylist(playlistId) {
-    alert("Funcionalidade de reproduzir playlist será implementada em breve!");
-    // TODO: Implement playlist playback
+    console.log("=== playPlaylist called ===");
+    console.log("Playlist ID:", playlistId);
+    console.log("currentPlaylistData:", window.currentPlaylistData);
+
+    if (!window.currentPlaylistData || !window.currentPlaylistData.musics || window.currentPlaylistData.musics.length === 0) {
+        alert("Esta playlist está vazia!");
+        return;
+    }
+
+    // Play the first song in the playlist
+    playSongFromPlaylistDetails(0);
+}
+
+function playSongFromPlaylistDetails(index) {
+    console.log("=== playSongFromPlaylistDetails called ===");
+    console.log("Index:", index);
+    console.log("currentPlaylistData:", window.currentPlaylistData);
+
+    if (!window.currentPlaylistData || !window.currentPlaylistData.musics || !window.currentPlaylistData.musics[index]) {
+        console.error("Playlist data not available or invalid index");
+        alert("Erro ao reproduzir música.");
+        return;
+    }
+
+    const songToPlay = window.currentPlaylistData.musics[index];
+    console.log("Song to play:", songToPlay);
+
+    // Check if song has a valid preview URL
+    if (!songToPlay.src || songToPlay.src === 'null' || songToPlay.src === 'undefined') {
+        console.error("Song does not have a valid preview URL:", songToPlay);
+        alert(`A música "${songToPlay.title}" não possui um preview disponível para reprodução.`);
+        return;
+    }
+
+    // Update global playlist
+    window.playlist = window.currentPlaylistData.musics;
+    window.currentSongIndex = index;
+
+    console.log("Updated window.playlist:", window.playlist);
+    console.log("Updated window.currentSongIndex:", window.currentSongIndex);
+    console.log("loadSong function available?", typeof loadSong);
+    console.log("playSong function available?", typeof playSong);
+
+    // Load and play the song
+    if (typeof loadSong === 'function') {
+        console.log("Calling loadSong...");
+        try {
+            loadSong(index);
+        } catch (error) {
+            console.error("Error in loadSong:", error);
+            alert("Erro ao carregar a música.");
+            return;
+        }
+    } else {
+        console.error("loadSong function not found!");
+        alert("Erro: função de carregamento não encontrada.");
+        return;
+    }
+
+    if (typeof playSong === 'function') {
+        console.log("Calling playSong...");
+        try {
+            playSong();
+        } catch (error) {
+            console.error("Error in playSong:", error);
+            alert("Erro ao reproduzir a música.");
+        }
+    } else {
+        console.error("playSong function not found!");
+        alert("Erro: função de reprodução não encontrada.");
+    }
+
+    console.log("=== playSongFromPlaylistDetails completed ===");
 }
 
 // Export functions to window
@@ -302,3 +400,4 @@ window.openPlaylist = openPlaylist;
 window.deletePlaylist = deletePlaylist;
 window.removeMusicFromPlaylist = removeMusicFromPlaylist;
 window.playPlaylist = playPlaylist;
+window.playSongFromPlaylistDetails = playSongFromPlaylistDetails;

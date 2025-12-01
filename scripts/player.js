@@ -129,7 +129,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Export functions to window for use in other scripts
   window.playSongFromPlaylist = playSongFromPlaylist;
+  window.loadSong = loadSong;
+  window.playSong = playSong;
+  window.pauseSong = pauseSong;
+
+  // Export currentSongIndex as a getter/setter
+  Object.defineProperty(window, 'currentSongIndex', {
+    get: function() { return currentSongIndex; },
+    set: function(value) { currentSongIndex = value; }
+  });
 
   // --- Like Functionality ---
 
@@ -285,25 +295,34 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
+    console.log("=== Adding song to playlist ===");
+    console.log("Playlist ID:", playlistId);
+    console.log("Song data being sent:", songData);
+
     const token = localStorage.getItem('token');
 
     try {
+        const requestBody = {
+            title: songData.title,
+            artist: songData.artist,
+            spotifyId: songData.spotifyId,
+            coverUrl: songData.coverUrl,
+            previewUrl: songData.previewUrl
+        };
+
+        console.log("Request body:", requestBody);
+
         const response = await fetch(`http://localhost:8081/playlist/${playlistId}/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                title: songData.title,
-                artist: songData.artist,
-                spotifyId: songData.spotifyId,
-                coverUrl: songData.coverUrl,
-                previewUrl: songData.previewUrl
-            })
+            body: JSON.stringify(requestBody)
         });
 
         if (response.ok) {
+            console.log("Song added successfully!");
             alert("Música adicionada à playlist com sucesso!");
             closePlaylistModal();
             // Clear the temporary song data
@@ -315,6 +334,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = 'login.html';
                 return;
             }
+            const errorText = await response.text();
+            console.error("Error adding song:", errorText);
             alert("Erro ao adicionar música à playlist.");
         }
     } catch (error) {
