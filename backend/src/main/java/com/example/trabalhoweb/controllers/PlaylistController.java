@@ -72,7 +72,6 @@ public class PlaylistController {
 
             Playlist playlist = playlistOpt.get();
 
-            // Check ownership
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (!playlist.getOwner().getId().equals(user.getId())) {
                 return ResponseEntity.status(403).body("Você não tem permissão para modificar esta playlist");
@@ -121,7 +120,6 @@ public class PlaylistController {
         Playlist playlist = playlistOpt.get();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Check if user owns the playlist
         if (!playlist.getOwner().getId().equals(user.getId())) {
             return ResponseEntity.status(403).build();
         }
@@ -137,7 +135,6 @@ public class PlaylistController {
         Playlist playlist = playlistOpt.get();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Check if user owns the playlist
         if (!playlist.getOwner().getId().equals(user.getId())) {
             return ResponseEntity.status(403).build();
         }
@@ -154,7 +151,6 @@ public class PlaylistController {
         Playlist playlist = playlistOpt.get();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Check if user owns the playlist
         if (!playlist.getOwner().getId().equals(user.getId())) {
             return ResponseEntity.status(403).build();
         }

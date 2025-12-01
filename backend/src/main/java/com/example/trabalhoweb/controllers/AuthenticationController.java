@@ -65,10 +65,8 @@ public class AuthenticationController {
         if (user != null) {
             String token = UUID.randomUUID().toString();
             user.setResetPasswordToken(token);
-            user.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(1)); // Token expires in 1 hour
+            user.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(1));
             this.userRepository.save(user);
-            // In a real application, you would send an email with the token.
-            // Here, we return the token for simulation purposes.
             return ResponseEntity.ok(Map.of("token", token));
         }
 

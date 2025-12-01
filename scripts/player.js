@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextButton = document.querySelector(".fa-forward-step");
   const prevButton = document.querySelector(".fa-backward-step");
   const progressBar = document.querySelector(".progress-bar");
-  const progressBarForeground = document.querySelector(".progress-bar-foreground");
+  const progressBarForeground = document.querySelector(
+    ".progress-bar-foreground"
+  );
   const progressBarHandle = document.querySelector(".progress-bar-handle");
   const timeCurrent = document.querySelector(".time-current");
   const timeTotal = document.querySelector(".time-total");
@@ -19,32 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const playlist = [
     {
-        title: "HIGHEST IN THE ROOM",
-        artist: "Travis Scott",
-        src: "../assets/music/travis/Travis Scott - HIGHEST IN THE ROOM (Official Music Video) [tfSS1e3kYeo].mp3",
-        albumArt: "../assets/img2.jpg",
-        spotifyId: "local-travis-highest"
+      title: "HIGHEST IN THE ROOM",
+      artist: "Travis Scott",
+      src: "../assets/music/travis/Travis Scott - HIGHEST IN THE ROOM (Official Music Video) [tfSS1e3kYeo].mp3",
+      albumArt: "../assets/img2.jpg",
+      spotifyId: "local-travis-highest",
     },
     {
-        title: "Não Quero Dinheiro",
-        artist: "Tim Maia",
-        src: "../assets/music/timMaia/Tim Maia - Não Quero Dinheiro (Só Quero Amar) [_HLsxDQ_98s].mp3",
-        albumArt: "../assets/img3.jpg",
-        spotifyId: "local-tim-naoquerodinheiro"
+      title: "Não Quero Dinheiro",
+      artist: "Tim Maia",
+      src: "../assets/music/timMaia/Tim Maia - Não Quero Dinheiro (Só Quero Amar) [_HLsxDQ_98s].mp3",
+      albumArt: "../assets/img3.jpg",
+      spotifyId: "local-tim-naoquerodinheiro",
     },
     {
-        title: "Scar Tissue",
-        artist: "Red Hot Chili Peppers",
-        src: "../assets/music/rhcp/Red Hot Chili Peppers - Scar Tissue [Official Music Video] [HD UPGRADE] [mzJj5-lubeM].mp3",
-        albumArt: "../assets/img4.jpg",
-        spotifyId: "local-rhcp-scartissue"
+      title: "Scar Tissue",
+      artist: "Red Hot Chili Peppers",
+      src: "../assets/music/rhcp/Red Hot Chili Peppers - Scar Tissue [Official Music Video] [HD UPGRADE] [mzJj5-lubeM].mp3",
+      albumArt: "../assets/img4.jpg",
+      spotifyId: "local-rhcp-scartissue",
     },
     {
-        title: "Get Lucky",
-        artist: "Daft Punk",
-        src: "../assets/music/daftPunk/Daft Punk - Get Lucky (Official Video) feat. Pharrell Williams and Nile Rodgers [CCHdMIEGaaM].mp3",
-        albumArt: "../assets/img5.jpg",
-        spotifyId: "local-daftpunk-getlucky"
+      title: "Get Lucky",
+      artist: "Daft Punk",
+      src: "../assets/music/daftPunk/Daft Punk - Get Lucky (Official Video) feat. Pharrell Williams and Nile Rodgers [CCHdMIEGaaM].mp3",
+      albumArt: "../assets/img5.jpg",
+      spotifyId: "local-daftpunk-getlucky",
     },
   ];
 
@@ -91,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function playPrevSong() {
-    currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+    currentSongIndex =
+      (currentSongIndex - 1 + playlist.length) % playlist.length;
     loadSong(currentSongIndex);
     playSong();
   }
@@ -121,206 +124,207 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function playSongFromPlaylist(songTitle) {
-    const songIndex = window.playlist.findIndex(song => song.title === songTitle);
+    const songIndex = window.playlist.findIndex(
+      (song) => song.title === songTitle
+    );
     if (songIndex !== -1) {
-        currentSongIndex = songIndex;
-        loadSong(currentSongIndex);
-        playSong();
+      currentSongIndex = songIndex;
+      loadSong(currentSongIndex);
+      playSong();
     }
   }
 
   window.playSongFromPlaylist = playSongFromPlaylist;
 
-  // --- Like Functionality ---
-
   async function toggleLike() {
     const currentSong = playlist[currentSongIndex];
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-        alert("Você precisa estar logado para curtir músicas.");
-        return;
+      alert("Você precisa estar logado para curtir músicas.");
+      return;
     }
 
     try {
-        const response = await fetch('http://localhost:8081/music/like', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                title: currentSong.title,
-                artist: currentSong.artist,
-                spotifyId: currentSong.spotifyId,
-                coverUrl: currentSong.albumArt,
-                previewUrl: currentSong.src
-            })
-        });
+      const response = await fetch("http://localhost:8081/music/like", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: currentSong.title,
+          artist: currentSong.artist,
+          spotifyId: currentSong.spotifyId,
+          coverUrl: currentSong.albumArt,
+          previewUrl: currentSong.src,
+        }),
+      });
 
-        if (response.ok) {
-            if (likeButton.classList.contains('fa-regular')) {
-                likeButton.classList.remove('fa-regular');
-                likeButton.classList.add('fa-solid');
-            } else {
-                likeButton.classList.remove('fa-solid');
-                likeButton.classList.add('fa-regular');
-            }
+      if (response.ok) {
+        if (likeButton.classList.contains("fa-regular")) {
+          likeButton.classList.remove("fa-regular");
+          likeButton.classList.add("fa-solid");
         } else {
-            if (response.status === 403 || response.status === 401) {
-                alert("Sessão expirada. Por favor, faça login novamente.");
-                localStorage.removeItem('token');
-                window.location.href = 'login.html';
-                return;
-            }
-            console.error("Failed to toggle like");
+          likeButton.classList.remove("fa-solid");
+          likeButton.classList.add("fa-regular");
         }
+      } else {
+        if (response.status === 403 || response.status === 401) {
+          alert("Sessão expirada. Por favor, faça login novamente.");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
+        }
+        console.error("Failed to toggle like");
+      }
     } catch (error) {
-        console.error("Erro ao curtir música:", error);
+      console.error("Erro ao curtir música:", error);
     }
   }
 
   async function checkIfLiked(song) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-        const response = await fetch('http://localhost:8081/music/liked', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (response.ok) {
-            const likedMusics = await response.json();
-            const isLiked = likedMusics.some(m => m.spotifyId === song.spotifyId);
-            if (isLiked) {
-                likeButton.classList.remove('fa-regular');
-                likeButton.classList.add('fa-solid');
-            } else {
-                likeButton.classList.remove('fa-solid');
-                likeButton.classList.add('fa-regular');
-            }
-        } else if (response.status === 403 || response.status === 401) {
-            localStorage.removeItem('token');
-            window.location.reload();
+      const response = await fetch("http://localhost:8081/music/liked", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const likedMusics = await response.json();
+        const isLiked = likedMusics.some((m) => m.spotifyId === song.spotifyId);
+        if (isLiked) {
+          likeButton.classList.remove("fa-regular");
+          likeButton.classList.add("fa-solid");
+        } else {
+          likeButton.classList.remove("fa-solid");
+          likeButton.classList.add("fa-regular");
         }
+      } else if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }
     } catch (error) {
-        console.error("Erro ao verificar curtidas:", error);
+      console.error("Erro ao verificar curtidas:", error);
     }
   }
 
-  // --- Playlist Functionality ---
-
   function openPlaylistModal() {
-      fetchPlaylistsForModal();
-      playlistModal.style.display = "block";
+    fetchPlaylistsForModal();
+    playlistModal.style.display = "block";
   }
 
   function closePlaylistModal() {
-      playlistModal.style.display = "none";
+    playlistModal.style.display = "none";
   }
 
   async function fetchPlaylistsForModal() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-          alert("Você precisa estar logado para adicionar à playlist.");
-          closePlaylistModal();
-          return;
-      }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Você precisa estar logado para adicionar à playlist.");
+      closePlaylistModal();
+      return;
+    }
 
-      try {
-          const response = await fetch('http://localhost:8081/playlist', {
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
+    try {
+      const response = await fetch("http://localhost:8081/playlist", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const playlists = await response.json();
+        playlistListModal.innerHTML = "";
+        if (playlists.length === 0) {
+          playlistListModal.innerHTML =
+            '<li style="padding: 10px; color: #aaa;">Nenhuma playlist encontrada. Crie uma primeiro!</li>';
+        } else {
+          playlists.forEach((pl) => {
+            const li = document.createElement("li");
+            li.textContent = pl.name;
+            li.style.padding = "10px";
+            li.style.cursor = "pointer";
+            li.style.borderBottom = "1px solid #333";
+            li.onmouseover = () => (li.style.backgroundColor = "#333");
+            li.onmouseout = () => (li.style.backgroundColor = "transparent");
+            li.onclick = () => addSongToPlaylist(pl.id);
+            playlistListModal.appendChild(li);
           });
-
-          if (response.ok) {
-              const playlists = await response.json();
-              playlistListModal.innerHTML = '';
-              if (playlists.length === 0) {
-                  playlistListModal.innerHTML = '<li style="padding: 10px; color: #aaa;">Nenhuma playlist encontrada. Crie uma primeiro!</li>';
-              } else {
-                  playlists.forEach(pl => {
-                      const li = document.createElement('li');
-                      li.textContent = pl.name;
-                      li.style.padding = "10px";
-                      li.style.cursor = "pointer";
-                      li.style.borderBottom = "1px solid #333";
-                      li.onmouseover = () => li.style.backgroundColor = "#333";
-                      li.onmouseout = () => li.style.backgroundColor = "transparent";
-                      li.onclick = () => addSongToPlaylist(pl.id);
-                      playlistListModal.appendChild(li);
-                  });
-              }
-          } else {
-              if (response.status === 403 || response.status === 401) {
-                  alert("Sessão expirada. Por favor, faça login novamente.");
-                  localStorage.removeItem('token');
-                  window.location.href = 'login.html';
-                  return;
-              }
-              playlistListModal.innerHTML = '<li style="padding: 10px; color: red;">Erro ao carregar playlists.</li>';
-          }
-      } catch (error) {
-          console.error("Erro ao buscar playlists:", error);
-          playlistListModal.innerHTML = '<li style="padding: 10px; color: red;">Erro de conexão.</li>';
+        }
+      } else {
+        if (response.status === 403 || response.status === 401) {
+          alert("Sessão expirada. Por favor, faça login novamente.");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
+        }
+        playlistListModal.innerHTML =
+          '<li style="padding: 10px; color: red;">Erro ao carregar playlists.</li>';
       }
+    } catch (error) {
+      console.error("Erro ao buscar playlists:", error);
+      playlistListModal.innerHTML =
+        '<li style="padding: 10px; color: red;">Erro de conexão.</li>';
+    }
   }
 
   async function addSongToPlaylist(playlistId) {
     let songData;
 
-    // Check if we're adding from the liked songs page
     if (window.currentSongToAdd) {
-        songData = window.currentSongToAdd;
+      songData = window.currentSongToAdd;
     } else {
-        // Otherwise, use the current song from the player
-        const currentSong = playlist[currentSongIndex];
-        songData = {
-            title: currentSong.title,
-            artist: currentSong.artist,
-            spotifyId: currentSong.spotifyId,
-            coverUrl: currentSong.albumArt,
-            previewUrl: currentSong.src
-        };
+      const currentSong = playlist[currentSongIndex];
+      songData = {
+        title: currentSong.title,
+        artist: currentSong.artist,
+        spotifyId: currentSong.spotifyId,
+        coverUrl: currentSong.albumArt,
+        previewUrl: currentSong.src,
+      };
     }
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8081/playlist/${playlistId}/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                title: songData.title,
-                artist: songData.artist,
-                spotifyId: songData.spotifyId,
-                coverUrl: songData.coverUrl,
-                previewUrl: songData.previewUrl
-            })
-        });
-
-        if (response.ok) {
-            alert("Música adicionada à playlist com sucesso!");
-            closePlaylistModal();
-            // Clear the temporary song data
-            window.currentSongToAdd = null;
-        } else {
-            if (response.status === 403 || response.status === 401) {
-                alert("Sessão expirada. Por favor, faça login novamente.");
-                localStorage.removeItem('token');
-                window.location.href = 'login.html';
-                return;
-            }
-            alert("Erro ao adicionar música à playlist.");
+      const response = await fetch(
+        `http://localhost:8081/playlist/${playlistId}/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: songData.title,
+            artist: songData.artist,
+            spotifyId: songData.spotifyId,
+            coverUrl: songData.coverUrl,
+            previewUrl: songData.previewUrl,
+          }),
         }
+      );
+
+      if (response.ok) {
+        alert("Música adicionada à playlist com sucesso!");
+        closePlaylistModal();
+        window.currentSongToAdd = null;
+      } else {
+        if (response.status === 403 || response.status === 401) {
+          alert("Sessão expirada. Por favor, faça login novamente.");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
+        }
+        alert("Erro ao adicionar música à playlist.");
+      }
     } catch (error) {
-        console.error("Erro ao adicionar à playlist:", error);
+      console.error("Erro ao adicionar à playlist:", error);
     }
-}
+  }
 
   playButton.addEventListener("click", togglePlayPause);
   nextButton.addEventListener("click", playNextSong);
@@ -330,22 +334,22 @@ document.addEventListener("DOMContentLoaded", () => {
   audioPlayer.addEventListener("ended", playNextSong);
 
   if (likeButton) {
-      likeButton.addEventListener("click", toggleLike);
+    likeButton.addEventListener("click", toggleLike);
   }
 
   if (addToPlaylistButton) {
-      addToPlaylistButton.addEventListener("click", openPlaylistModal);
+    addToPlaylistButton.addEventListener("click", openPlaylistModal);
   }
 
   if (closeModalSpan) {
-      closeModalSpan.addEventListener("click", closePlaylistModal);
+    closeModalSpan.addEventListener("click", closePlaylistModal);
   }
 
-  window.onclick = function(event) {
-      if (event.target == playlistModal) {
-          closePlaylistModal();
-      }
-  }
+  window.onclick = function (event) {
+    if (event.target == playlistModal) {
+      closePlaylistModal();
+    }
+  };
 
   loadSong(currentSongIndex);
 });

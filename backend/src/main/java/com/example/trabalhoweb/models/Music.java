@@ -22,7 +22,7 @@ public class Music {
     private String title;
     private String artist;
     private String album;
-    private String spotifyId; // Optional, for integration
+    private String spotifyId;
     private String coverUrl;
     private String previewUrl;
 }
