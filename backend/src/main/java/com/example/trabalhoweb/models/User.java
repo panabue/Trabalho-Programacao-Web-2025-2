@@ -31,6 +31,18 @@ public class User implements UserDetails {
     private String resetPasswordToken;
     private LocalDateTime resetPasswordTokenExpiry;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_liked_musics",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "music_id")
+    )
+    private List<Music> likedMusics;
+
+    @ManyToOne
+    @JoinColumn(name = "last_played_music_id")
+    private Music lastPlayedMusic;
+
     public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;

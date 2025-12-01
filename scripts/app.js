@@ -11,6 +11,16 @@ async function loadContent(pageName) {
     const htmlContent = await response.text();
 
     contentContainer.innerHTML = htmlContent;
+
+    // Load playlists if biblioteca page is loaded
+    if (pageName === 'biblioteca' && typeof loadUserPlaylists === 'function') {
+      loadUserPlaylists();
+    }
+
+    // Load liked songs if liked-songs page is loaded
+    if (pageName === 'liked-songs' && typeof loadLikedSongs === 'function') {
+      loadLikedSongs();
+    }
   } catch (error) {
     console.error("Erro ao carregar página:", error);
     document.getElementById("page-content").innerHTML =
@@ -56,3 +66,57 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+async function createPlaylist() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert("Você precisa estar logado para criar uma playlist.");
+        return;
+    }
+
+    const name = prompt("Nome da nova playlist:");
+    if (!name) return;
+
+    try {
+        const response = await fetch('http://localhost:8081/playlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name: name,
+                description: "Minha playlist personalizada"
+            })
+        });
+
+        if (response.ok) {
+            alert("Playlist criada com sucesso!");
+            // Reload biblioteca page if it's currently loaded
+            const currentPage = document.getElementById("page-content");
+            if (currentPage && currentPage.querySelector('.minhas-playlists')) {
+                loadContent('biblioteca');
+            }
+        } else {
+            if (response.status === 403 || response.status === 401) {
+                alert("Sessão expirada. Por favor, faça login novamente.");
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            let errorMessage = "Erro ao criar playlist.";
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (e) {
+                console.warn("Could not parse error JSON", e);
+            }
+            alert(errorMessage);
+        }
+    } catch (error) {
+        console.error("Erro ao criar playlist:", error);
+        alert("Erro de conexão ao criar playlist.");
+    }
+}
+window.createPlaylist = createPlaylist;
