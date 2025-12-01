@@ -1,0 +1,214 @@
+/* Biblioteca Styles */
+
+.minhas-playlists {
+    padding: 20px;
+    min-height: 400px;
+}
+
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.playlist-card {
+    background: #181818;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.playlist-card:hover {
+    background: #282828;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.playlist-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #333;
+    margin-bottom: 16px;
+}
+
+.playlist-card h4 {
+    color: white;
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.playlist-card p {
+    color: #b3b3b3;
+    margin: 0;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.play-overlay {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 48px;
+    height: 48px;
+    background: #1db954;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-card:hover .play-overlay {
+    opacity: 1;
+    transform: translateY(-4px);
+}
+
+.play-overlay i {
+    color: black;
+    margin-left: 3px;
+}
+
+/* Playlist Detail Styles */
+
+.playlist-detail-header {
+    padding: 40px 20px;
+    background: linear-gradient(180deg, #3e3e3e 0%, #121212 100%);
+}
+
+.playlist-detail-header img {
+    width: 232px;
+    height: 232px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+    background: #333;
+}
+
+.playlist-actions {
+    padding: 24px 20px;
+    background: #121212;
+}
+
+.playlist-actions button {
+    padding: 12px 32px;
+    border-radius: 500px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.playlist-actions button:first-child {
+    background: #1db954;
+    color: white;
+    border: none;
+    margin-right: 16px;
+}
+
+.playlist-actions button:first-child:hover {
+    background: #1ed760;
+    transform: scale(1.04);
+}
+
+.playlist-actions button:last-child {
+    background: transparent;
+    color: #b3b3b3;
+    border: 1px solid #b3b3b3;
+}
+
+.playlist-actions button:last-child:hover {
+    border-color: white;
+    color: white;
+    transform: scale(1.04);
+}
+
+.playlist-tracks {
+    padding: 0 20px 40px 20px;
+    background: #121212;
+}
+
+.playlist-tracks table {
+    width: 100%;
+    color: white;
+    border-collapse: collapse;
+}
+
+.playlist-tracks thead tr {
+    border-bottom: 1px solid #282828;
+}
+
+.playlist-tracks th {
+    padding: 12px;
+    text-align: left;
+    color: #b3b3b3;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.playlist-tracks tbody tr {
+    border-bottom: 1px solid #282828;
+    transition: background 0.2s ease;
+}
+
+.playlist-tracks tbody tr:hover {
+    background: #282828;
+}
+
+.playlist-tracks td {
+    padding: 12px;
+}
+
+.playlist-tracks td img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #333;
+}
+
+.playlist-tracks button {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s ease;
+}
+
+.playlist-tracks button:hover {
+    color: white;
+}
+
+/* Empty State Styles */
+
+.empty-state {
+    padding: 40px;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #777;
+}
